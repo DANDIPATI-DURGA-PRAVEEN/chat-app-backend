@@ -4,8 +4,7 @@
   "info": {
     "singularName": "message",
     "pluralName": "messages",
-    "displayName": "Message",
-    "description": ""
+    "displayName": "Message"
   },
   "options": {
     "draftAndPublish": false
@@ -23,7 +22,7 @@
     },
     "room": {
       "type": "string",
-      "default": "general"
+      "default": "server"
     }
   }
 }

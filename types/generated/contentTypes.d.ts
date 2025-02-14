@@ -372,7 +372,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
   collectionName: 'messages';
   info: {
-    description: '';
     displayName: 'Message';
     pluralName: 'messages';
     singularName: 'message';
@@ -392,7 +391,7 @@ export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    room: Schema.Attribute.String & Schema.Attribute.DefaultTo<'general'>;
+    room: Schema.Attribute.String & Schema.Attribute.DefaultTo<'server'>;
     sender: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'

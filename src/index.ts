@@ -6,7 +6,7 @@ export default {
   register({ strapi }) {
     const io = require('socket.io')(strapi.server.httpServer, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: "https://chat-app-frontend-app.netlify.app",
         methods: ["GET", "POST"],
         credentials: true
       }
@@ -17,6 +17,8 @@ export default {
 
       socket.on('message', async (message) => {
         try {
+          console.log('Received message:', message);
+          
           // Store message in database
           const storedMessage = await strapi.entityService.create('api::message.message', {
             data: {
@@ -27,8 +29,10 @@ export default {
             }
           });
 
+          console.log('Stored message:', storedMessage);
+
           // Echo back the same message
-          io.to(socket.id).emit('message', {
+          socket.emit('message', {
             id: storedMessage.id,
             text: message.text,
             sender: 'Server',
@@ -38,7 +42,14 @@ export default {
           });
         } catch (error) {
           console.error('Error storing message:', error);
+          socket.emit('error', {
+            message: 'Failed to store message'
+          });
         }
+      });
+
+      socket.on('error', (error) => {
+        console.error('Socket error:', error);
       });
 
       socket.on('disconnect', () => {
